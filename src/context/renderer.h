@@ -68,7 +68,7 @@ private:
     GLubyte *pixel_buffer;
     int cur_size = 10;
     float cur_col[3] = {1.0f, 1.0f, 1.0f};
-    float clear_col[3] = {0.2f, 0.2f, 0.2f};
+    float clear_col[3] = {1.0f, 1.0f, 1.0f};
     int cur_brush_id = 0;
     Brush *cur_brush;
     BrushManager *brush_manager;

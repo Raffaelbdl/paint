@@ -46,7 +46,7 @@ bool PixelRenderer::init(GLWindow *window)
 {
     Renderer::init(window);
     pixel_buffer = new GLubyte[window->width * window->height * 3];
-    std::fill_n(pixel_buffer, window->width * window->height * 3, (int)(255 * 0.2f));
+    std::fill_n(pixel_buffer, window->width * window->height * 3, (int)(255 * clear_col[0]));
     return true;
 }
 
