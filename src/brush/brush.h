@@ -23,12 +23,51 @@ public:
         const Color col,
         const int width,
         const int height) = 0;
+
+    virtual void DrawPreview(
+        GLubyte *pixel_buffer,
+        int x,
+        int y,
+        const int size,
+        const Color col,
+        const int width,
+        const int height) = 0;
 };
 
 class SquareBrush : public Brush
 {
 public:
     void Draw(
+        GLubyte *pixel_buffer,
+        int x,
+        int y,
+        const int size,
+        const Color col,
+        const int width,
+        const int height) override;
+    void DrawPreview(
+        GLubyte *pixel_buffer,
+        int x,
+        int y,
+        const int size,
+        const Color col,
+        const int width,
+        const int height) override;
+};
+
+class RoundBrush : public Brush
+{
+public:
+    void Draw(
+        GLubyte *pixel_buffer,
+        int x,
+        int y,
+        const int size,
+        const Color col,
+        const int width,
+        const int height) override;
+
+    void DrawPreview(
         GLubyte *pixel_buffer,
         int x,
         int y,

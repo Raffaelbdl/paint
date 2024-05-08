@@ -55,6 +55,7 @@ public:
 class PixelRenderer : public Renderer
 {
 public:
+    ~PixelRenderer();
     bool init(GLWindow *window) override;
     void pre_render() override;
     void post_render() override;
@@ -63,6 +64,7 @@ public:
 private:
     // std::vector<std::vector<Pixel>> pixels{};
     GLubyte *pixel_buffer;
+    int cur_size = 10;
     float cur_col[3] = {1.0f, 1.0f, 1.0f};
     float clear_col[3] = {0.2f, 0.2f, 0.2f};
     Brush *brush;
