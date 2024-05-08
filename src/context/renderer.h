@@ -11,15 +11,11 @@
 #include <imgui_impl_opengl3.h>
 
 #include "window/window.h"
-
-struct Pixel
-{
-    int x, y;
-    float xgl, ygl;
-    float r, g, b;
-};
+#include "brush/brush.h"
+#include "types.h"
 
 class GLWindow;
+class Brush;
 
 class Renderer
 {
@@ -65,7 +61,9 @@ public:
     void end() override;
 
 private:
-    std::vector<std::vector<Pixel>> pixels{};
+    // std::vector<std::vector<Pixel>> pixels{};
+    GLubyte *pixel_buffer;
     float cur_col[3] = {1.0f, 1.0f, 1.0f};
     float clear_col[3] = {0.2f, 0.2f, 0.2f};
+    Brush *brush;
 };
