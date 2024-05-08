@@ -16,6 +16,8 @@
 
 class GLWindow;
 class Brush;
+class SquareBrush;
+class RoundBrush;
 
 class Renderer
 {
@@ -55,6 +57,7 @@ public:
 class PixelRenderer : public Renderer
 {
 public:
+    PixelRenderer();
     ~PixelRenderer();
     bool init(GLWindow *window) override;
     void pre_render() override;
@@ -62,10 +65,11 @@ public:
     void end() override;
 
 private:
-    // std::vector<std::vector<Pixel>> pixels{};
     GLubyte *pixel_buffer;
     int cur_size = 10;
     float cur_col[3] = {1.0f, 1.0f, 1.0f};
     float clear_col[3] = {0.2f, 0.2f, 0.2f};
-    Brush *brush;
+    int cur_brush_id = 0;
+    Brush *cur_brush;
+    BrushManager *brush_manager;
 };

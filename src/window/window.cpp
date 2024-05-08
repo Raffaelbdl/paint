@@ -1,5 +1,16 @@
 #include "window/window.h"
 
+float inv_lerp(float v, float a, float b)
+{
+    v = std::clamp(v, a, b);
+    return (v - b) / (a - b);
+}
+float inv_lerp(int v, int a, int b)
+{
+    v = std::clamp(v, a, b);
+    return float(v - b) / float(a - b);
+}
+
 GLWindow::~GLWindow()
 {
     mOpenGLRenderer->end();

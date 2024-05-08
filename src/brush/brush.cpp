@@ -2,9 +2,11 @@
 #include <math.h>
 #include <iostream>
 
+#include "window/window.h"
 #include "brush/brush.h"
 #include "brush.h"
 
+// Stores in pixel_buffer
 void DrawPixel(
     GLubyte *pixel_buffer,
     int x,
@@ -18,12 +20,6 @@ void DrawPixel(
     pixel_buffer[pos + 2] = (int)(255 * col.b);
 }
 
-float inv_lerp_(float v, float a, float b)
-{
-    v = std::clamp(v, a, b);
-    return (v - b) / (a - b);
-}
-
 // Does not store in pixel_buffer
 void ShowPixel(
     int x,
@@ -33,8 +29,8 @@ void ShowPixel(
     const int height)
 {
     glColor3f(col.r, col.g, col.b);
-    float xgl = -(inv_lerp_(x, 0, width) * 2 - 1);
-    float ygl = -(inv_lerp_(y, 0, height) * 2 - 1);
+    float xgl = -(inv_lerp(x, 0, width) * 2 - 1);
+    float ygl = -(inv_lerp(y, 0, height) * 2 - 1);
     glVertex2f(xgl, ygl);
 }
 void ShowPixel(
@@ -43,8 +39,8 @@ void ShowPixel(
     const int width,
     const int height)
 {
-    float xgl = -(inv_lerp_(x, 0, width) * 2 - 1);
-    float ygl = -(inv_lerp_(y, 0, height) * 2 - 1);
+    float xgl = -(inv_lerp(x, 0, width) * 2 - 1);
+    float ygl = -(inv_lerp(y, 0, height) * 2 - 1);
     glVertex2f(xgl, ygl);
 }
 
@@ -164,4 +160,23 @@ void RoundBrush::DrawPreview(GLubyte *pixel_buffer, int x, int y, const int size
     }
 
     glEnd();
+}
+
+BrushManager::BrushManager()
+{
+    square_brush = new SquareBrush();
+    round_brush = new RoundBrush();
+}
+
+BrushManager::~BrushManager()
+{
+    delete square_brush;
+    delete round_brush;
+}
+
+Brush *BrushManager::get_brush(BrushType type)
+{
+    if (type == BrushType::Round)
+        return round_brush;
+    return square_brush; // default
 }

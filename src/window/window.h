@@ -2,12 +2,16 @@
 
 #include <string>
 #include <memory>
+#include <algorithm>
 
 #include <context/renderer.h>
 
 class OpenGLRenderer;
 class ImGuiRenderer;
 class PixelRenderer;
+
+float inv_lerp(float v, float a, float b);
+float inv_lerp(int v, int a, int b);
 
 class GLWindow
 {
