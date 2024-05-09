@@ -1,0 +1,6 @@
+[submodule "build/src/external"]
+	path = build/src/external
+	url = git@github.com:Raffaelbdl/cpp_sm.git
+[submodule "external/sm"]
+	path = external/sm
+	url = git@github.com:Raffaelbdl/cpp_sm.git
