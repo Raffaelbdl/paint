@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+
 bool within_(float v, float a, float b)
 {
     return v >= a && v <= b;
@@ -124,6 +127,12 @@ void DrawScene::pre_render()
         // Color Option
         ImGui::PushItemWidth(100);
         ImGui::ColorPicker4("Color", cur_col);
+
+        if (ImGui::Button("Save"))
+        {
+            stbi_flip_vertically_on_write(true);
+            stbi_write_png("./save.png", mWindow->width, mWindow->height, 3, pixel_buffer, 3 * mWindow->width);
+        }
     }
     ImGui::End();
 }
