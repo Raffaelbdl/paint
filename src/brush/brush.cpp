@@ -174,9 +174,27 @@ BrushManager::~BrushManager()
     delete round_brush;
 }
 
-Brush *BrushManager::get_brush(BrushType type)
+Brush *BrushManager::get_current_brush() const
 {
-    if (type == BrushType::Round)
+    if (cur_brush == 0)
+        return square_brush;
+    if (cur_brush == 1)
         return round_brush;
-    return square_brush; // default
+    else
+        return nullptr;
+}
+
+void BrushManager::set_current_brush(int i)
+{
+    cur_brush = i;
+}
+
+void BrushManager::Draw(GLubyte *pixel_buffer, int x, int y, const Color col, const int width, const int height)
+{
+    get_current_brush()->Draw(pixel_buffer, x, y, size, col, width, height);
+}
+
+void BrushManager::DrawPreview(GLubyte *pixel_buffer, int x, int y, const Color col, const int width, const int height)
+{
+    get_current_brush()->DrawPreview(pixel_buffer, x, y, size, col, width, height);
 }
