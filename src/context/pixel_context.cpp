@@ -32,7 +32,7 @@ Pixel cursor_to_win_pos(ImVec2 screenPos, ImVec2 winPos, ImVec2 winSize, float *
 PixelRenderer::PixelRenderer()
 {
     brush_manager = new BrushManager();
-    cur_brush = brush_manager->get_brush(BrushType::Square);
+    cur_brush = brush_manager->get_current_brush();
 }
 
 PixelRenderer::~PixelRenderer()
@@ -47,6 +47,8 @@ bool PixelRenderer::init(GLWindow *window)
     Renderer::init(window);
     pixel_buffer = new GLubyte[window->width * window->height * 3];
     std::fill_n(pixel_buffer, window->width * window->height * 3, (int)(255 * clear_col[0]));
+
+    frame_buffer = new FrameBuffer(window->width, window->height);
     return true;
 }
 
@@ -70,10 +72,10 @@ void PixelRenderer::pre_render()
         {
             cur_brush_id = n;
 
-            if (n == 0)
-                cur_brush = brush_manager->get_brush(BrushType::Square);
-            else
-                cur_brush = brush_manager->get_brush(BrushType::Round);
+            // if (n == 0)
+            //     cur_brush = brush_manager->get_brush(BrushType::Square);
+            // else
+            //     cur_brush = brush_manager->get_brush(BrushType::Round);
         }
     }
     ImGui::End();
@@ -95,11 +97,30 @@ void PixelRenderer::pre_render()
             cur_brush->Draw(pixel_buffer, pix.x, pix.y, cur_size, Color{clear_col[0], clear_col[1], clear_col[2]}, winSize.x, winSize.y);
         }
 
+    frame_buffer->bind();
+
     glDrawPixels(mWindow->width, mWindow->height, GL_RGB, GL_UNSIGNED_BYTE, pixel_buffer);
 
     // Draw Preview
     if (_within)
         cur_brush->DrawPreview(pixel_buffer, pix.x, pix.y, cur_size, Color{cur_col[0], cur_col[1], cur_col[2]}, winSize.x, winSize.y);
+
+    frame_buffer->unbind();
+
+    ImGui::Begin("Scene");
+    {
+        ImGui::BeginChild("Render");
+        int width = (int)ImGui::GetContentRegionAvail().x;
+        int height = (int)ImGui::GetContentRegionAvail().y;
+        ImGui::Image(
+            (ImTextureID)frame_buffer->get_frame_texture(),
+            ImGui::GetContentRegionAvail(),
+            ImVec2(0, 1),
+            ImVec2(1, 0));
+
+        ImGui::EndChild();
+    }
+    ImGui::End();
 }
 
 void PixelRenderer::post_render() {}
