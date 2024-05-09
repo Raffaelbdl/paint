@@ -2,6 +2,7 @@
 #include "renderer.h"
 
 #include <iostream>
+#include <cstring>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
@@ -128,10 +129,16 @@ void DrawScene::pre_render()
         ImGui::PushItemWidth(100);
         ImGui::ColorPicker4("Color", cur_col);
 
+        ImGui::InputText("Save Path", save_path, IM_ARRAYSIZE(save_path));
+        ImGui::SameLine();
         if (ImGui::Button("Save"))
         {
             stbi_flip_vertically_on_write(true);
-            stbi_write_png("./save.png", mWindow->width, mWindow->height, 3, pixel_buffer, 3 * mWindow->width);
+            char *path = new char[std::strlen(save_path) + std::strlen(".png") + 1];
+            std::strcpy(path, save_path);
+            std::strcat(path, ".png");
+            stbi_write_png(path, mWindow->width, mWindow->height, 3, pixel_buffer, 3 * mWindow->width);
+            delete path;
         }
     }
     ImGui::End();

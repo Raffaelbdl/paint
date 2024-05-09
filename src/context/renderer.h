@@ -101,4 +101,6 @@ private:
 
     GLubyte *pixel_buffer;
     FrameBuffer *frame_buffer;
+
+    char save_path[128];
 };
