@@ -14,10 +14,13 @@
 #include "brush/brush.h"
 #include "types.h"
 
+#include "graphics/framebuffer.h"
+
 class GLWindow;
 class Brush;
 class SquareBrush;
 class RoundBrush;
+class FrameBuffer;
 
 class Renderer
 {
@@ -72,4 +75,32 @@ private:
     int cur_brush_id = 0;
     Brush *cur_brush;
     BrushManager *brush_manager;
+
+    FrameBuffer *frame_buffer;
+};
+
+class DrawScene : public Renderer
+{
+public:
+    DrawScene();
+    ~DrawScene();
+    bool init(GLWindow *window) override;
+    void pre_render() override;
+    void post_render() override;
+    void end() override;
+
+private:
+    ImVec2 size;
+
+    float cur_col[3] = {0.0f, 0.0f, 0.0f};
+    float clear_col[3] = {1.0f, 1.0f, 1.0f};
+
+    int cur_size = 10;
+    int cur_brush_id = 0;
+    BrushManager *brush_manager;
+
+    GLubyte *pixel_buffer;
+    FrameBuffer *frame_buffer;
+
+    char save_path[128];
 };

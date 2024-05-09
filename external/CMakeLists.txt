@@ -20,5 +20,6 @@ target_include_directories(imgui_glfw PUBLIC ${CMAKE_CURRENT_LIST_DIR}/imgui)
 # stb_image
 add_library(stb_image STATIC
     stb/stb_image.cpp
+    stb/stb_image_write.cpp
     )
 target_include_directories(stb_image PUBLIC ${CMAKE_CURRENT_LIST_DIR}/stb)

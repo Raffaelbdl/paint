@@ -8,9 +8,13 @@ add_executable(${PROJECT_NAME}
     context/opengl_renderer.cpp
     context/imgui_context.cpp
     context/pixel_context.cpp
+    context/draw_window.cpp
     brush/brush.h
     brush/brush.cpp
     types.h
+    graphics/framebuffer.h
+    graphics/framebuffer.cpp
+
     )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR})

@@ -26,6 +26,7 @@ bool GLWindow::init(int _width, int _height, const std::string &_title)
     mOpenGLRenderer->init(this);
     mImGuiRenderer->init(this);
     mPixelRenderer->init(this);
+    mDrawScene->init(this);
 
     return mIsRunning;
 }
@@ -37,8 +38,11 @@ void GLWindow::render()
     // Init UI
     mImGuiRenderer->pre_render();
 
-    // Test pixel
-    mPixelRenderer->pre_render();
+    // Draw Scene
+    mDrawScene->pre_render();
+
+    // // Test pixel
+    // mPixelRenderer->pre_render();
 
     ImGui::ShowDemoWindow();
 
