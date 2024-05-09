@@ -14,7 +14,8 @@ add_executable(${PROJECT_NAME}
     types.h
     graphics/framebuffer.h
     graphics/framebuffer.cpp
-
+    canvas/canvas.h
+    canvas/canvas.cpp
     )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR})
@@ -24,3 +25,5 @@ target_link_libraries(${PROJECT_NAME} stb_image)
 
 find_package(GLEW REQUIRED)
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
+
+target_link_libraries(${PROJECT_NAME} statemachine)

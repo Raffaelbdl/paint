@@ -20,7 +20,7 @@ bool within_(ImVec2 screenPos, ImVec2 winPos, ImVec2 winSize)
     return true;
 }
 
-Pixel cursor_to_win_pos_(ImVec2 screenPos, ImVec2 winPos, ImVec2 winSize, float *col)
+Pixel cursor_to_win_pos_(ImVec2 screenPos, ImVec2 winPos, ImVec2 winSize, const float *col)
 {
     int x = (int)(std::clamp(screenPos.x, winPos.x, winPos.x + winSize.x) - winPos.x);
     int y = (int)(winSize.y - std::clamp(screenPos.y, winPos.y, winPos.y + winSize.y) + winPos.y);
@@ -33,6 +33,8 @@ Pixel cursor_to_win_pos_(ImVec2 screenPos, ImVec2 winPos, ImVec2 winSize, float 
 
 DrawScene::DrawScene()
 {
+    sm = new CanvasContext();
+    sm->set_scene(this);
 }
 
 DrawScene::~DrawScene()
@@ -71,29 +73,24 @@ void DrawScene::pre_render()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2());
     ImGui::Begin("Draw Window", &popen, flags);
     {
-        ImGui::BeginChild("Render", ImVec2(), ImGuiChildFlags_AlwaysUseWindowPadding);
+        ImGui::BeginChild("Canvas", ImVec2(), ImGuiChildFlags_AlwaysUseWindowPadding);
         {
-            ImVec2 winPos = ImGui::GetWindowPos();
-            ImVec2 winSize = ImGui::GetWindowSize();
-            ImVec2 screenPos = ImGui::GetMousePos();
+            // Collect information
+            winPos = ImGui::GetWindowPos();
+            winSize = ImGui::GetWindowSize();
+            mousePos = ImGui::GetMousePos();
+            pixel = cursor_to_win_pos_(mousePos, winPos, winSize, cur_col);
+            within = within_(mousePos, winPos, winSize);
+            is_focused = ImGui::IsWindowFocused();
 
-            Pixel pix = cursor_to_win_pos_(screenPos, winPos, winSize, cur_col);
-            bool _within = within_(screenPos, winPos, winSize);
-
-            // Only draw when focused
-            bool is_focused = ImGui::IsWindowFocused();
-            // Draw On Button Down
-            if (is_focused && ImGui::IsMouseDown(ImGuiMouseButton(0)) && _within)
-            {
-                brush_manager->Draw(pixel_buffer, pix.x, pix.y, Color{cur_col[0], cur_col[1], cur_col[2]}, winSize.x, winSize.y);
-            }
+            sm->Update();
 
             frame_buffer->bind();
             glDrawPixels(size.x, size.y, GL_RGB, GL_UNSIGNED_BYTE, pixel_buffer);
 
             // Draw Preview
-            if (_within)
-                brush_manager->DrawPreview(pixel_buffer, pix.x, pix.y, Color{cur_col[0], cur_col[1], cur_col[2]}, winSize.x, winSize.y);
+            if (within)
+                brush_manager->DrawPreview(pixel_buffer, pixel.x, pixel.y, Color{cur_col[0], cur_col[1], cur_col[2]}, winSize.x, winSize.y);
 
             frame_buffer->unbind();
 
@@ -140,6 +137,11 @@ void DrawScene::pre_render()
             stbi_write_png(path, mWindow->width, mWindow->height, 3, pixel_buffer, 3 * mWindow->width);
             delete path;
         }
+
+        if (ImGui::Button("Color picker"))
+        {
+            is_color_picking = true; // make state machine for tools ?
+        }
     }
     ImGui::End();
 }
@@ -150,4 +152,9 @@ void DrawScene::post_render()
 
 void DrawScene::end()
 {
+}
+
+void DrawScene::draw(int x, int y, int width, int height)
+{
+    brush_manager->Draw(pixel_buffer, x, y, Color{cur_col[0], cur_col[1], cur_col[2]}, width, height);
 }

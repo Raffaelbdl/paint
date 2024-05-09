@@ -23,3 +23,7 @@ add_library(stb_image STATIC
     stb/stb_image_write.cpp
     )
 target_include_directories(stb_image PUBLIC ${CMAKE_CURRENT_LIST_DIR}/stb)
+
+# statemachine
+add_library(statemachine INTERFACE)
+target_include_directories(statemachine INTERFACE ${CMAKE_CURRENT_LIST_DIR}/sm)
