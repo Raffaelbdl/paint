@@ -171,6 +171,7 @@ void CanvasWidget::redo_push_back()
     redo_stack.push_back(tmp);
 }
 
+// https://stackoverflow.com/questions/1361139/how-to-avoid-memory-leaks-when-using-a-vector-of-pointers-to-dynamically-allocat
 template <typename T>
 void delete_pointed_to(T *const ptr)
 {

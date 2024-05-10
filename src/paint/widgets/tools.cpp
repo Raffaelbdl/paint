@@ -57,9 +57,9 @@ void ToolBox::update()
     ImGui::End();
 
     if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Z)))
-    {
         ((PaintImGui *)context)->undo();
-    }
+    if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Y)))
+        ((PaintImGui *)context)->redo();
 }
 
 PaintInfo *ToolBox::info()
