@@ -53,5 +53,5 @@ PaintInfo *ToolBox::info()
 
 BrushManager *ToolBox::brush_manager()
 {
-    ((PaintImGui *)context)->get_brush_manager();
+    return ((PaintImGui *)context)->get_brush_manager();
 }

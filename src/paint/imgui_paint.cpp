@@ -26,6 +26,7 @@ bool PaintImGui::init(IWindow *window)
     OpenGL3GlfwImGuiContext::init(window);
     toolbox->init(this);
     canvas_widget->init(this);
+    return true;
 }
 
 void PaintImGui::update()
