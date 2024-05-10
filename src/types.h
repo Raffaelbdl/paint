@@ -1,10 +1,10 @@
 #pragma once
 
-struct Pixel
+struct PixelPos
 {
     int x, y;
-    float xgl, ygl;
-    float r, g, b;
+    constexpr PixelPos() : x(0), y(0) {}
+    constexpr PixelPos(int _x, int _y) : x(_x), y(_y) {}
 };
 
 struct Color

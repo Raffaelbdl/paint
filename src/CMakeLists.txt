@@ -2,20 +2,33 @@ add_executable(${PROJECT_NAME}
     main.cpp
     application.h
     application.cpp
-    window/window.h
-    window/window.cpp
-    context/renderer.h
-    context/opengl_renderer.cpp
-    context/imgui_context.cpp
-    context/pixel_context.cpp
-    context/draw_window.cpp
-    brush/brush.h
-    brush/brush.cpp
-    types.h
+    
+    window/opengl_window.h
+    window/opengl_window.cpp
+    window/imgui/imgui_context.h
+    window/imgui/opengl3_glfw_context.h
+    window/imgui/opengl3_glfw_context.cpp
+
+    paint/imgui_paint.h
+    paint/imgui_paint.cpp
+    paint/brush/brush.h
+    paint/brush/brush.cpp
+
+    paint/widgets/widget.h
+    paint/widgets/canvas/canvas.h
+    paint/widgets/canvas/canvas.cpp
+    paint/widgets/canvas/onclick_state.cpp
+    paint/widgets/canvas/colorpick_state.cpp
+    paint/widgets/canvas/draw_state.cpp
+    paint/widgets/canvas/idle_state.cpp
+    
+    paint/widgets/tools.h
+    paint/widgets/tools.cpp
+
     graphics/framebuffer.h
     graphics/framebuffer.cpp
-    canvas/canvas.h
-    canvas/canvas.cpp
+
+    types.h
     )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR})

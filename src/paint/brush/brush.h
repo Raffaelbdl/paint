@@ -1,5 +1,7 @@
 #pragma once
-#include "context/renderer.h"
+
+#include <GL/glew.h>
+
 #include "types.h"
 
 // Draw a pixel at the given position with the given color

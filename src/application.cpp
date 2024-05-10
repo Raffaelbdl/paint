@@ -1,15 +1,30 @@
 #include <application.h>
 
-Application::Application(const std::string &name)
+Application::Application(const int width, const int height, const std::string &name)
 {
-    mWindow = std::make_unique<GLWindow>();
-    mWindow->init(1024, 720, name);
+    window = new OpenGLWindow();
+    window->init(width, height, name);
+
+    paint_imgui = new PaintImGui();
+    paint_imgui->init(window);
+}
+
+Application::~Application()
+{
+    delete window;
+    delete paint_imgui;
 }
 
 void Application::Run()
 {
-    while (mWindow->is_running())
+    while (window->is_running())
     {
-        mWindow->render();
+        window->pre_render();
+        paint_imgui->pre_render();
+
+        paint_imgui->update();
+
+        paint_imgui->post_render();
+        window->post_render();
     }
 }

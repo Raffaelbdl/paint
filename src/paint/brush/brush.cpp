@@ -3,7 +3,8 @@
 #include <iostream>
 
 #include "window/window.h"
-#include "brush/brush.h"
+#include "paint/widgets/canvas/canvas.h"
+
 #include "brush.h"
 
 // Stores in pixel_buffer
