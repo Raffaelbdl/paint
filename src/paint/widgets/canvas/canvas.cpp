@@ -170,3 +170,15 @@ void CanvasWidget::redo_push_back()
     std::copy(pixel_buffer, pixel_buffer + size, tmp);
     redo_stack.push_back(tmp);
 }
+
+template <typename T>
+void delete_pointed_to(T *const ptr)
+{
+    delete ptr;
+}
+
+void CanvasWidget::clear_redo()
+{
+    std::for_each(redo_stack.begin(), redo_stack.end(), delete_pointed_to<GLubyte>);
+    redo_stack.clear();
+}

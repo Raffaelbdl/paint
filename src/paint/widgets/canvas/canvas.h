@@ -43,6 +43,7 @@ public:
     void undo_push_back();
     void redo();
     void redo_push_back();
+    void clear_redo();
 
 private:
     GLubyte *pixel_buffer = nullptr;     // Stores user inputs

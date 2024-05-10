@@ -6,6 +6,7 @@ void DrawState::Enter()
 {
     std::cout << "enter" << "\n";
     ctx()->parent->undo_push_back();
+    ctx()->parent->clear_redo();
 }
 
 void DrawState::Update()

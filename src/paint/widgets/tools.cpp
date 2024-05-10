@@ -53,7 +53,13 @@ void ToolBox::update()
             info()->set_color_picking(true);
         }
     }
+
     ImGui::End();
+
+    if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Z)))
+    {
+        ((PaintImGui *)context)->undo();
+    }
 }
 
 PaintInfo *ToolBox::info()
