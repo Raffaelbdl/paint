@@ -93,7 +93,7 @@ public:
 class ColorPickerState : public OnClickState
 {
 public:
-    void Enter() override;
+    void Enter() override {};
     void Update() override;
     void Exit() override;
 };
@@ -109,8 +109,8 @@ public:
         draw_state = new DrawState();
         draw_state->set_context(this);
 
-        // colorPicker_state = new ColorPickerState();
-        // colorPicker_state->set_context(this);
+        colorPicker_state = new ColorPickerState();
+        colorPicker_state->set_context(this);
 
         cur_state = idle_state;
     }
@@ -118,7 +118,7 @@ public:
     {
         delete idle_state;
         delete draw_state;
-        // delete colorPicker_state;
+        delete colorPicker_state;
     }
 
     void set_parent(CanvasWidget *parent) { this->parent = parent; }
@@ -129,5 +129,5 @@ public:
     // States
     IdleState *idle_state;
     DrawState *draw_state;
-    // ColorPickerState *colorPicker_state;
+    ColorPickerState *colorPicker_state;
 };

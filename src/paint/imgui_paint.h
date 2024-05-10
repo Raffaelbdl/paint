@@ -29,7 +29,7 @@ public:
     ImVec2 mousePos{};
     PixelPos pixelPos{};
 
-    float cur_col[3]{0.0f, 0.0f, 0.0f};
+        float cur_col[3]{0.0f, 0.0f, 0.0f};
     int cur_brush_id = 0;
 
     char save_name[128]{};
