@@ -38,6 +38,16 @@ void ToolBox::update()
             ((PaintImGui *)context)->save();
         }
 
+        if (ImGui::Button("Undo"))
+        {
+            ((PaintImGui *)context)->undo();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Redo"))
+        {
+            ((PaintImGui *)context)->redo();
+        }
+
         if (ImGui::Button("Color picker"))
         {
             info()->set_color_picking(true);

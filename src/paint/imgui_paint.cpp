@@ -4,6 +4,7 @@
 #include <stb_image_write.h>
 
 #include "paint/imgui_paint.h"
+#include "imgui_paint.h"
 
 PaintImGui::PaintImGui()
 {
@@ -43,4 +44,14 @@ void PaintImGui::save()
     std::strcat(path, ".png");
     stbi_write_png(path, window->width, window->height, 3, canvas_widget->get_pixel_buffer(), 3 * window->width);
     delete path;
+}
+
+void PaintImGui::undo()
+{
+    canvas_widget->undo();
+}
+
+void PaintImGui::redo()
+{
+    canvas_widget->redo();
 }

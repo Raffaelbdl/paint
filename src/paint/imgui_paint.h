@@ -52,6 +52,8 @@ public:
     BrushManager *get_brush_manager() { return brush_manager; }
 
     void save();
+    void undo();
+    void redo();
 
 private:
     PaintInfo *info = nullptr;

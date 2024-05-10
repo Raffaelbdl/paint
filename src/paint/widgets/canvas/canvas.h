@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <sm.h>
 
 #include "graphics/framebuffer.h"
@@ -30,16 +32,27 @@ public:
     PaintInfo *info();
     BrushManager *brush_manager();
 
-    const GLubyte *get_pixel_buffer() const { return pixel_buffer; }
-    // const bool focused() const { return ((PaintImGui *)context)->get_info()->focused(); }
-    // const bool within() const { return ((PaintImGui *)context)->get_info()->within(); }
-    // const PixelPos pixel_pos() const { return ((PaintImGui *)context)->get_info()->pixelPos; }
-    // const ImVec2 win_size() const { return ((PaintImGui *)context)->get_info()->winSize; }
+    GLubyte *get_pixel_buffer() { return pixel_buffer; }
+    void set_pixel_buffer(GLubyte *new_buffer)
+    {
+        for (int i = 0; i < sizeof(new_buffer); i++)
+            pixel_buffer[i] = new_buffer[i];
+    }
+
+    void undo();
+    void undo_push_back();
+    void redo();
+    void redo_push_back();
 
 private:
     GLubyte *pixel_buffer = nullptr;     // Stores user inputs
     FrameBuffer *frame_buffer = nullptr; // Handles rendering
     CanvasContext *sm = nullptr;
+
+    std::vector<GLubyte *> undo_stack{};
+    std::vector<GLubyte *> redo_stack{};
+
+    int size = 0;
 };
 
 /// StateMachine for CanvasWidget ///
@@ -71,7 +84,7 @@ public:
 class DrawState : public OnClickState
 {
 public:
-    void Enter() override {};
+    void Enter() override;
     void Update() override;
     void Exit() override {};
 };

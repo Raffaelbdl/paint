@@ -1,6 +1,8 @@
 #include <iostream>
 #include <algorithm>
+#include <iterator>
 #include <cstring>
+#include <memory>
 
 #include "canvas.h"
 
@@ -52,6 +54,7 @@ bool CanvasWidget::init(OpenGL3GlfwImGuiContext *context)
 
     int length = 3 * context->get_width() * context->get_height();
     pixel_buffer = new GLubyte[length];
+    size = 3 * context->get_width() * context->get_height() * sizeof(GLubyte);
     std::fill_n(pixel_buffer, length, (int)255); // white background
 
     frame_buffer = new FrameBuffer(context->get_width(), context->get_height());
@@ -124,4 +127,46 @@ PaintInfo *CanvasWidget::info()
 BrushManager *CanvasWidget::brush_manager()
 {
     return ((PaintImGui *)context)->get_brush_manager();
+}
+
+void CanvasWidget::undo()
+{
+    if (undo_stack.size() == 0)
+        return;
+
+    redo_push_back();
+
+    GLubyte *tmp = undo_stack.back();
+    std::copy(tmp, tmp + size, pixel_buffer);
+
+    undo_stack.pop_back();
+    delete tmp;
+}
+
+void CanvasWidget::undo_push_back()
+{
+    GLubyte *tmp = new GLubyte[size / sizeof(GLubyte)];
+    std::copy(pixel_buffer, pixel_buffer + size, tmp);
+    undo_stack.push_back(tmp);
+}
+
+void CanvasWidget::redo()
+{
+    if (redo_stack.size() == 0)
+        return;
+
+    undo_push_back();
+
+    GLubyte *tmp = redo_stack.back();
+    std::copy(tmp, tmp + size, pixel_buffer);
+
+    redo_stack.pop_back();
+    delete tmp;
+}
+
+void CanvasWidget::redo_push_back()
+{
+    GLubyte *tmp = new GLubyte[size / sizeof(GLubyte)];
+    std::copy(pixel_buffer, pixel_buffer + size, tmp);
+    redo_stack.push_back(tmp);
 }

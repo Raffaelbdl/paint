@@ -1,4 +1,12 @@
+#include <iostream>
+
 #include "canvas.h"
+
+void DrawState::Enter()
+{
+    std::cout << "enter" << "\n";
+    ctx()->parent->undo_push_back();
+}
 
 void DrawState::Update()
 {
